@@ -23,11 +23,29 @@
 /*     wrefresh(playground); */
 /* } */
 
+
+void draw_alien_ships()
+{
+    int centre_row = pnum_row/2;
+    int centre_col = pnum_col/2;
+    for(int i=0; i<alien_ship_count; i++)
+    {
+	int x = alien_ships[i].x;
+	int y = alien_ships[i].y;
+	int row = centre_row - (y - player.y);
+	int col = centre_col + (x - player.x);
+
+	fprintf(err, "draw_alien_ship(): row: %d, col: %d, type: %d, tile: %c\n", row, col, alien_ships[i].type, ALIEN_SHIP_TILE[alien_ships[i].type]);
+
+	mvwaddch(playground, row, col, ALIEN_SHIP_TILE[alien_ships[i].type]);
+    }
+}
+
 void draw()
 {
     werase(playground);
-    int starty = player_pos.y % 100;
-    int startx = player_pos.x % 100;
+    int starty = player.y % 100;
+    int startx = player.x % 100;
 
     starty = (starty + 100) % 100;
     startx = (startx + 100) % 100;
@@ -48,6 +66,9 @@ void draw()
 	}
 	curry = (curry + 1) % 100;
     }
+
+    draw_alien_ships();
+
     box(playground, 0, 0);
     wrefresh(playground);
 }

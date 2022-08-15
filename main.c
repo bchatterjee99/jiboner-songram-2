@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ncurses.h>
 #include <stdlib.h>
+#include <time.h>
 
 
 int num_row;
@@ -17,6 +18,7 @@ FILE* err;
 
 #include "constants.h"
 #include "tileset.h"
+#include "structure.h"
 #include "player.c"
 #include "worldgen.c"
 #include "draw.c"
@@ -34,6 +36,8 @@ void init()
     debug = NULL;
 
     err = fopen("err.txt", "w");
+
+    srand(time(0));
 }
 
 void reset()
@@ -89,6 +93,7 @@ void game_loop()
 	}
 	if(quit) break;
     }
+    destroy_universe();
 }
 
 

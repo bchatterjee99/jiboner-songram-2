@@ -1,28 +1,19 @@
 
-struct player_pos_struct{
-    int x;
-    int y;
-    int height;
-};
-
-struct player_pos_struct player_pos;
-
-
 void player_move(int dir)
 {
     switch(dir)
     {
 	    case LEFT:
-		player_pos.x--;
+		player.x--;
 		break;
 	    case DOWN:
-		player_pos.y++;
+		player.y--;
 		break;
 	    case UP:
-		player_pos.y--;
+		player.y++;
 		break;
 	    case RIGHT:
-		player_pos.x++;
+		player.x++;
 		break;
     }
 }
