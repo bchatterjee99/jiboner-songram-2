@@ -1,0 +1,14 @@
+#-*-sh-*-
+
+tput reset
+
+file=main.c
+flags="-g -z execstack -fno-stack-protector -lncurses"
+
+
+if gcc $flags $file; then
+    echo -e "\n\n  compile hoe geche\n\n";
+    ./a.out
+else
+    echo -e "\n\n  hocche na\n\n";
+fi
