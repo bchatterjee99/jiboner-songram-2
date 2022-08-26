@@ -1,4 +1,4 @@
-<img src="https://github.com/bchatterjee99/jiboner-songram-2/blob/master/cover.jpg" width="100">
+<img src="https://github.com/bchatterjee99/jiboner-songram-2/blob/master/cover.jpg" width="500">
 
 # Jiboner-Songram-2
 ```
