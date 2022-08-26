@@ -2,13 +2,22 @@
 
 tput reset
 
-file=main.c
-flags="-g -z execstack -fno-stack-protector -lncurses"
+flags="-lncurses"
 
+gcc -c main.c
+gcc -c combat.c
+gcc -c inspect.c
+gcc -c draw.c
+gcc -c worldgen.c
+gcc -c player.c
+gcc -c tileset.c
+gcc -c global.c
 
-if gcc $flags $file; then
-    echo -e "\n\n  compile hoe geche\n\n";
-    ./a.out
-else
-    echo -e "\n\n  hocche na\n\n";
-fi
+gcc main.o combat.o inspect.o draw.o worldgen.o player.o tileset.o global.o -lncurses
+
+# if gcc $files $flags; then
+#     echo -e "\n\n  compile hoe geche\n\n";
+#     ./a.out
+# else
+#     echo -e "\n\n  hocche na\n\n";
+# fi

@@ -1,0 +1,114 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ALIEN_SHIP_NAME	./tileset.c	/^char ALIEN_SHIP_NAME[20][20];$/;"	v
+ALIEN_SHIP_TILE	./tileset.c	/^char ALIEN_SHIP_TILE[20];$/;"	v
+BACKGROUND_OBJECT	./tileset.c	/^char BACKGROUND_OBJECT[20];$/;"	v
+DOWN	./global.h	9;"	d
+DRAW	./draw.h	2;"	d
+GLOBAL	./global.h	2;"	d
+HP_BAR	./global.h	16;"	d
+LEFT	./global.h	6;"	d
+LOOK	./inspect.h	2;"	d
+NORTH_EAST	./global.h	12;"	d
+NORTH_WEST	./global.h	11;"	d
+PLAYER	./player.h	2;"	d
+PLAYER_SHIP_TILE	./tileset.h	4;"	d
+POWER_BAR	./global.h	17;"	d
+RIGHT	./global.h	7;"	d
+SHIP_ARMOR	./tileset.c	/^char SHIP_ARMOR[20][20];$/;"	v
+SHIP_WEAPONS	./tileset.c	/^char SHIP_WEAPONS[20][20];$/;"	v
+SOUTH_EAST	./global.h	14;"	d
+SOUTH_WEST	./global.h	13;"	d
+STRUCTURE	./structure.h	2;"	d
+TILESET	./tileset.h	2;"	d
+UP	./global.h	8;"	d
+WORLDGEN	./worldgen.h	2;"	d
+alien_ship_count	./worldgen.c	/^int alien_ship_count;$/;"	v
+alien_ship_struct	./structure.h	/^struct alien_ship_struct{$/;"	s
+alien_ships	./worldgen.c	/^struct alien_ship_struct *alien_ships;$/;"	v	typeref:struct:alien_ship_struct
+armor	./structure.h	/^	int armor;$/;"	m	struct:alien_ship_struct
+armor	./structure.h	/^	int armor;$/;"	m	struct:player_struct
+attack	./combat.c	/^void attack(int type)$/;"	f
+background	./worldgen.c	/^char background[100][100];$/;"	v
+ch	./structure.h	/^	char ch;$/;"	m	struct:entity
+debug	./global.c	/^WINDOW* debug;$/;"	v
+debug_count	./global.c	/^unsigned long debug_count;$/;"	v
+destroy_universe	./worldgen.c	/^void destroy_universe()$/;"	f
+draw	./draw.c	/^void draw()$/;"	f
+draw_alien_ships	./draw.c	/^void draw_alien_ships()$/;"	f
+draw_cursor	./draw.c	/^void draw_cursor(int cursor_row, int cursor_col)$/;"	f
+draw_hud	./draw.c	/^void draw_hud()$/;"	f
+draw_init	./draw.c	/^void draw_init()$/;"	f
+draw_player_ship	./draw.c	/^void draw_player_ship()$/;"	f
+draw_ray	./draw.c	/^void draw_ray(int ray_pos_x, int ray_pos_y, int length)$/;"	f
+draw_tile	./draw.c	/^void draw_tile(int x, int y, char tile)$/;"	f
+enemy_gen	./worldgen.c	/^void enemy_gen()$/;"	f
+entity	./structure.h	/^struct entity{$/;"	s
+entity_type	./structure.h	/^	int entity_type;$/;"	m	struct:entity
+err	./global.c	/^FILE* err;$/;"	v
+game_loop	./main.c	/^void game_loop()$/;"	f
+gen_background	./worldgen.c	/^void gen_background()$/;"	f
+get_bit	./permutation.c	/^int get_bit(char a, int i)$/;"	f
+height	./structure.h	/^	int height;$/;"	m	struct:player_struct
+hnum_col	./global.c	/^int hnum_col;$/;"	v
+hnum_row	./global.c	/^int hnum_row;$/;"	v
+hp	./structure.h	/^	int hp;$/;"	m	struct:alien_ship_struct
+hp	./structure.h	/^	int hp;$/;"	m	struct:player_struct
+hud	./global.c	/^WINDOW* hud;$/;"	v
+id	./structure.h	/^	int id;$/;"	m	struct:entity
+info	./global.c	/^WINDOW* info;$/;"	v
+init	./main.c	/^void init()$/;"	f
+inside	./draw.c	/^int inside(int row, int col)$/;"	f
+inum_col	./global.c	/^int inum_col;$/;"	v
+inum_row	./global.c	/^int inum_row;$/;"	v
+look	./inspect.c	/^void look()$/;"	f
+main	./main.c	/^int main()$/;"	f
+main	./permutation.c	/^int main()$/;"	f
+main	./test.c	/^int main()$/;"	f
+max_hp	./structure.h	/^	int max_hp;$/;"	m	struct:alien_ship_struct
+max_hp	./structure.h	/^	int max_hp;$/;"	m	struct:player_struct
+max_power	./structure.h	/^	int max_power;$/;"	m	struct:alien_ship_struct
+max_power	./structure.h	/^	int max_power;$/;"	m	struct:player_struct
+name	./structure.h	/^	char name[20];$/;"	m	struct:planet_struct
+num_col	./global.c	/^int num_col;$/;"	v
+num_row	./global.c	/^int num_row;$/;"	v
+on_screen_object	./draw.c	/^struct entity on_screen_object[100][100];$/;"	v	typeref:struct:entity
+perm	./permutation.c	/^int perm[8] = {6, 4, 2, 5, 7, 0, 1, 3};$/;"	v
+planet_count	./worldgen.c	/^int planet_count;$/;"	v
+planet_struct	./structure.h	/^struct planet_struct{$/;"	s
+planets	./worldgen.c	/^struct planet_struct* planets;$/;"	v	typeref:struct:planet_struct
+player	./player.c	/^struct player_struct player;$/;"	v	typeref:struct:player_struct
+player_init	./player.c	/^void player_init()$/;"	f
+player_move	./player.c	/^void player_move(int dir)$/;"	f
+player_struct	./structure.h	/^struct player_struct{$/;"	s
+playground	./global.c	/^WINDOW* playground;$/;"	v
+pnum_col	./global.c	/^int pnum_col;$/;"	v
+pnum_row	./global.c	/^int pnum_row;$/;"	v
+power	./structure.h	/^	int power;$/;"	m	struct:alien_ship_struct
+power	./structure.h	/^	int power;$/;"	m	struct:player_struct
+primary_weapon	./structure.h	/^	int primary_weapon;$/;"	m	struct:alien_ship_struct
+primary_weapon	./structure.h	/^	int primary_weapon;$/;"	m	struct:player_struct
+put_str	./tileset.c	/^void put_str(char* a, char* b)$/;"	f
+reset	./main.c	/^void reset()$/;"	f
+secondary_weapon	./structure.h	/^	int secondary_weapon;$/;"	m	struct:alien_ship_struct
+secondary_weapon	./structure.h	/^	int secondary_weapon;$/;"	m	struct:player_struct
+set_bit	./permutation.c	/^char set_bit(char a, int i, int b)$/;"	f
+ship_name	./player.c	/^char ship_name[20];$/;"	v
+show	./permutation.c	/^void show(unsigned char a)$/;"	f
+show_info	./draw.c	/^void show_info(int cursor_row, int cursor_col, int skip)$/;"	f
+size	./structure.h	/^	int size;$/;"	m	struct:planet_struct
+tileset_init	./tileset.c	/^void tileset_init()$/;"	f
+time_count	./global.c	/^unsigned long time_count;$/;"	v
+timestamp	./structure.h	/^	unsigned long timestamp;$/;"	m	struct:entity
+type	./structure.h	/^	int type;$/;"	m	struct:alien_ship_struct
+type	./structure.h	/^	int type;$/;"	m	struct:planet_struct
+worldgen	./worldgen.c	/^void worldgen()$/;"	f
+worldgen_init	./worldgen.c	/^void worldgen_init()$/;"	f
+x	./structure.h	/^	int x;$/;"	m	struct:alien_ship_struct
+x	./structure.h	/^	int x;$/;"	m	struct:player_struct
+y	./structure.h	/^	int y;$/;"	m	struct:alien_ship_struct
+y	./structure.h	/^	int y;$/;"	m	struct:player_struct

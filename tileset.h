@@ -1,15 +1,15 @@
+#ifndef TILESET
+#define TILESET
 
-#define PLAYER_SHIP 'A'
-char ALIEN_SHIP_TILE[20];
+#define PLAYER_SHIP_TILE 'A'
+extern char ALIEN_SHIP_TILE[20];
+extern char BACKGROUND_OBJECT[20];
+extern char ALIEN_SHIP_NAME[20][20];
+extern char SHIP_WEAPONS[20][20];
+extern char SHIP_ARMOR[20][20];
 
-void tileset_init()
-{
-    ALIEN_SHIP_TILE[0] = 'V'; // little green men
-    ALIEN_SHIP_TILE[1] = 'T'; // planet express
-    ALIEN_SHIP_TILE[2] = 'Y'; // space octopus
-    ALIEN_SHIP_TILE[3] = '8'; // ur-quan ?
-    ALIEN_SHIP_TILE[4] = 'H'; // ...
-    ALIEN_SHIP_TILE[5] = 'X'; //
-    ALIEN_SHIP_TILE[6] = 'M'; //
-    ALIEN_SHIP_TILE[7] = 'O'; // jani na
-}
+void put_str(char* a, char* b);
+
+void tileset_init();
+
+#endif
