@@ -1,6 +1,6 @@
-![aaa](https://github.com/bchatterjee99/jiboner-songram-2/blob/master/cover.jpg =250x)
+<img src="https://github.com/bchatterjee99/jiboner-songram-2/blob/master/cover.jpg" width="100">
 
-Jiboner-Songram-2
+# Jiboner-Songram-2
 ```
 7980 AD. An ancient robotic alien power decided to exterminate 
 human infestation from the universe. Earth is under attack.
@@ -19,14 +19,14 @@ You head out into the darkness, to look for answers,
 to fight for the survival of the human race....
 ```
 
-Build
+# Build
 ```
 ./run
 ```
 
-Current Controls
+# Current Controls
 ![aaa](https://github.com/bchatterjee99/jiboner-songram-2/blob/master/controls.png)
 
 
-Screenshot
+# Screenshot
 ![aaa](https://github.com/bchatterjee99/jiboner-songram-2/blob/master/screenshot-1.png)
