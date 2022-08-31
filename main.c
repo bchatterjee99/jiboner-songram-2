@@ -124,6 +124,9 @@ void game_loop()
 			case 's':
 				attack(2); // fire secondary weapon
 				break;
+			case 'e':
+				explosion_test(); // test
+				break;
 
 			// faltu
 			case 'r':

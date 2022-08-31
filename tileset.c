@@ -43,10 +43,12 @@ void tileset_init()
 	put_str(SHIP_WEAPONS[1], "laser-weapon-1");
 	put_str(SHIP_WEAPONS[2], "emp-cannon");
 	put_str(SHIP_WEAPONS[3], "bio-mass-ejector");
+	put_str(SHIP_WEAPONS[4], "laser-weapon-2");
 
 	put_str(SHIP_ARMOR[0], "--");
 	put_str(SHIP_ARMOR[1], "iron-plate-armor-1");
 	put_str(SHIP_ARMOR[2], "alien-metal-armor-1");
 	put_str(SHIP_ARMOR[3], "mutated-exoskeleton");
+	put_str(SHIP_ARMOR[4], "alien-material-armor-1");
 
 }

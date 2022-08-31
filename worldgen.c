@@ -47,26 +47,34 @@ void enemy_gen()
 	switch(alien_ships[idx].type)
 	{
 		case 0: // ur-quan
-			alien_ships[idx].hp = 10;
-			alien_ships[idx].max_hp = 10;
+			alien_ships[idx].hp = 15;
+			alien_ships[idx].max_hp = 15;
+			alien_ships[idx].power = 10;
+			alien_ships[idx].max_power = 15;
+			alien_ships[idx].primary_weapon = 4; // laser-weapon-2
+			alien_ships[idx].secondary_weapon = 0;
+			alien_ships[idx].armor = 0;
+			alien_ships[idx].armor_class = 0;
 			break;
 		case 1: // space-octopus
 			alien_ships[idx].hp = 15;
 			alien_ships[idx].max_hp = 20;
-			alien_ships[idx].power = 10;
+			alien_ships[idx].power = 15;
 			alien_ships[idx].max_power = 20;
-			alien_ships[idx].primary_weapon = 3;
+			alien_ships[idx].primary_weapon = 3; // bio-mass-ejector
 			alien_ships[idx].secondary_weapon = 0;
-			alien_ships[idx].armor = 3;
+			alien_ships[idx].armor = 3; // mutated-exoskeleton
+			alien_ships[idx].armor_class = 2;
 			break;
 		case 2: // jani na
-			alien_ships[idx].hp = 15;
+			alien_ships[idx].hp = 10;
 			alien_ships[idx].max_hp = 20;
 			alien_ships[idx].power = 10;
 			alien_ships[idx].max_power = 20;
-			alien_ships[idx].primary_weapon = 3;
+			alien_ships[idx].primary_weapon = 1;
 			alien_ships[idx].secondary_weapon = 0;
-			alien_ships[idx].armor = 3;
+			alien_ships[idx].armor = 4; // alien-material-armor-1
+			alien_ships[idx].armor_class = 3; // alien-material-armor-1
 			break;
 	}
 

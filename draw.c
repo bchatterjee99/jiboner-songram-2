@@ -29,7 +29,7 @@ int inside(int row, int col)
 }
 
 // draw tile with global coordinates
-void draw_tile(int x, int y, char tile)
+void draw_tile_global(int x, int y, char tile)
 {
 	int centre_row = pnum_row/2;
 	int centre_col = pnum_col/2;
@@ -37,6 +37,22 @@ void draw_tile(int x, int y, char tile)
 	int col = centre_col + (x - player.x);
 	if(inside(row, col))
 		mvwaddch(playground, row, col, tile);
+}
+
+void draw_tile(int row, int col, char tile)
+{
+    if(inside(row, col))
+	mvwaddch(playground, row, col, tile);
+}
+
+void draw_tiles(int row, int col, char* tiles)
+{
+    int i = 0;
+    while(tiles[i] != '\0')
+    {
+	draw_tile(row, col+i, tiles[i]);
+	i++;
+    }
 }
 
 void draw_alien_ships()
@@ -55,7 +71,7 @@ void draw_alien_ships()
 		mvwaddch(playground, row, col, ALIEN_SHIP_TILE[alien_ships[i].type]);
 		on_screen_object[row][col].timestamp = time_count;
 		on_screen_object[row][col].entity_type = 4;
-		on_screen_object[row][col].id = alien_ships[i].type;
+		on_screen_object[row][col].id = i;
 		on_screen_object[row][col].ch = ALIEN_SHIP_TILE[alien_ships[i].type];
 	}
 }
@@ -130,7 +146,7 @@ void draw()
 void draw_ray(int ray_pos_x, int ray_pos_y, int length)
 {
 	for(int i=0; i<length; i++)
-		draw_tile(ray_pos_x, ray_pos_y + i, '|');
+		draw_tile_global(ray_pos_x, ray_pos_y + i, '|');
 	wrefresh(playground);
 }
 
@@ -155,7 +171,7 @@ void draw_cursor(int cursor_row, int cursor_col)
 	wrefresh(playground);
 }
 
-void show_info(int cursor_row, int cursor_col, int skip)
+void show_info_from_cursor(int cursor_row, int cursor_col, int skip)
 {
 	werase(info);
 	box(info, 0, 0);
@@ -194,11 +210,11 @@ void show_info(int cursor_row, int cursor_col, int skip)
 		if(ok) break;
 	}
 
-	int type = on_screen_object[i][j].entity_type;
+	int entity_type = on_screen_object[i][j].entity_type;
 	int id = on_screen_object[i][j].id;
 	char ch = on_screen_object[i][j].ch;
-	int filled = 0, row;
-	switch(type)
+	int filled = 0, row, type;
+	switch(entity_type)
 	{
 		case 1: // debris
 			mvwprintw(info, 1, 1, "debris");
@@ -214,9 +230,10 @@ void show_info(int cursor_row, int cursor_col, int skip)
 			break;
 		case 4: // alien ship
 			row = 1;
+			type = alien_ships[id].type;
 
 			// name
-			mvwprintw(info, row, 1, "%s", ALIEN_SHIP_NAME[id]);
+			mvwprintw(info, row, 1, "%s", ALIEN_SHIP_NAME[type]);
 			row+=1;
 			for(int k=1; k<inum_col-1; k++) mvwaddch(info, row, k, '-');
 			row+=1;
@@ -310,4 +327,188 @@ void show_info(int cursor_row, int cursor_col, int skip)
 
 	wrefresh(info);
 	wrefresh(playground);
+}
+
+
+void show_info(struct entity* e)
+{
+	werase(info);
+	box(info, 0, 0);
+
+	int entity_type = e->entity_type;
+	int id = e->id;
+	char ch = e->ch;
+	int filled = 0, row, type;
+	switch(entity_type)
+	{
+		case 1: // debris
+			mvwprintw(info, 1, 1, "debris");
+			for(int k=1; k<inum_col-1; k++) mvwaddch(info, 2, k, '-');
+			break;
+		case 2: // star
+			mvwprintw(info, 1, 1, "unknown star");
+			for(int k=1; k<inum_col-1; k++) mvwaddch(info, 2, k, '-');
+			break;
+		case 3: // asteroid
+			mvwprintw(info, 1, 1, "asteroid");
+			for(int k=1; k<inum_col-1; k++) mvwaddch(info, 2, k, '-');
+			break;
+		case 4: // alien ship
+			row = 1;
+			type = alien_ships[id].type;
+
+			// name
+			mvwprintw(info, row, 1, "%s", ALIEN_SHIP_NAME[type]);
+			row+=1;
+			for(int k=1; k<inum_col-1; k++) mvwaddch(info, row, k, '-');
+			row+=1;
+
+			// hp
+			mvwprintw(info, row, 1, "HP: ");
+			filled = (alien_ships[id].hp * HP_BAR)/alien_ships[id].max_hp;
+			for(int k=0; k<HP_BAR; k++)
+				if(k <= filled)
+					mvwaddch(info, row, k + 5, '|');
+				else
+					mvwaddch(info, row, k + 5, '.');
+			row+=1;
+
+			// power
+			mvwprintw(info, row, 1, "Power: ");
+			filled = (alien_ships[id].power * POWER_BAR)/alien_ships[id].max_power;
+			for(int k=0; k<POWER_BAR; k++)
+				if(k <= filled)
+					mvwaddch(info, row, k + 8, '|');
+				else
+					mvwaddch(info, row, k + 8, '.');
+			row+=2;
+
+			// primary weapon
+			mvwprintw(info, row, 1, "Primary Weapon:"); row++;
+			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[alien_ships[id].primary_weapon]);
+			row+=2;
+
+			// scondary weapon
+			mvwprintw(info, row, 1, "Secondary Weapon:"); row++;
+			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[alien_ships[id].secondary_weapon]);
+			row+=2;
+
+			// armor
+			mvwprintw(info, row, 1, "Armor:"); row++;
+			mvwprintw(info, row, 1, "%s", SHIP_ARMOR[alien_ships[id].armor]);
+
+			break;
+
+		case 5: // player ship
+			row = 1;
+
+			// name
+			mvwprintw(info, row, 1, "%s", ship_name);
+			row+=1;
+			for(int k=1; k<inum_col-1; k++) mvwaddch(info, row, k, '-');
+			row+=1;
+
+			// hp
+			mvwprintw(info, row, 1, "HP: ");
+			filled = (player.hp * HP_BAR)/player.max_hp;
+			for(int k=0; k<HP_BAR; k++)
+				if(k <= filled)
+					mvwaddch(info, row, k + 5, '|');
+				else
+					mvwaddch(info, row, k + 5, '.');
+			row+=1;
+
+			// power
+			mvwprintw(info, row, 1, "Power: ");
+			filled = (player.power * POWER_BAR)/player.max_power;
+			for(int k=0; k<POWER_BAR; k++)
+				if(k <= filled)
+					mvwaddch(info, row, k + 8, '|');
+				else
+					mvwaddch(info, row, k + 8, '.');
+			row+=2;
+
+			// primary weapon
+			mvwprintw(info, row, 1, "Primary Weapon:"); row++;
+			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[player.primary_weapon]);
+			row+=2;
+
+			// scondary weapon
+			mvwprintw(info, row, 1, "Secondary Weapon:"); row++;
+			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[player.secondary_weapon]);
+			row+=2;
+
+
+			// armor
+			mvwprintw(info, row, 1, "Armor:"); row++;
+			mvwprintw(info, row, 1, "%s", SHIP_ARMOR[player.armor]);
+
+			break;
+
+	}
+	wrefresh(info);
+}
+
+
+void draw_explosion(int row, int col, int stage)
+{
+    switch(stage)
+    {
+	case 0: 
+	    draw_tiles(row, col, "*");  
+	    break;
+	case 1:
+	    draw_tiles(row-1, col+0,  "-");
+	    draw_tiles(row+0, col-1, "( )");
+	    draw_tiles(row+1, col-1,  "-");
+	    break;
+	case 2:
+	    draw_tiles(row-1, col-1,  "---");
+	    draw_tiles(row+0, col-2, "(   )");
+	    draw_tiles(row+1, col-1,  "---");
+	    break;
+	case 3:
+	    draw_tiles(row-2, col-1,   "---");
+	    draw_tiles(row-1, col-2,  "/   \\");
+	    draw_tiles(row+0, col-3, "(     )");
+	    draw_tiles(row+1, col-2,  "\\   /");
+	    draw_tiles(row+2, col-1,   "---");
+	    break;
+	case 4:
+	    draw_tiles(row-2, col-1,   "---");
+	    draw_tiles(row-1, col-2,  "/   \\");
+	    draw_tiles(row+0, col-3, "|     |");
+	    draw_tiles(row+1, col-2,  "\\   /");
+	    draw_tiles(row+2, col-1,   "---");
+	    break;
+	case 5:
+	    draw_tiles(row-2, col-1,   "---");
+	    //draw_tiles(row-1, col-2, "---");
+	    draw_tiles(row+0, col-3, "|     |");
+	    //draw_tiles(row+1, col-2, "---");
+	    draw_tiles(row+2, col-1,   "---");
+	    break;
+	case 6:
+	    draw_tiles(row-2, col+0,    "-");
+	    //draw_tiles(row-1, col-2, "-");
+	    draw_tiles(row+0, col-3, "|     |");
+	    //draw_tiles(row+1, col-1, "-");
+	    draw_tiles(row+2, col+0,    "-");
+	    break;
+	case 7:
+	    draw_tiles(row-2, col+0,    "-");
+	    //draw_tiles(row-1, col-2, "-");
+	    draw_tiles(row+0, col-3, "-     -");
+	    //draw_tiles(row+1, col-1, "-");
+	    draw_tiles(row+2, col+0,    "-");
+	    break;
+	case 8:
+	    draw_tiles(row-2, col+0,    ".");
+	    //draw_tiles(row-1, col-2, "-");
+	    draw_tiles(row+0, col-3, ".     .");
+	    //draw_tiles(row+1, col-1, "-");
+	    draw_tiles(row+2, col+0,    ".");
+	    break;
+    }
+    wrefresh(playground);
 }

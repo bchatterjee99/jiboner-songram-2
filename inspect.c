@@ -16,7 +16,7 @@ void look()
 	{
 		draw();
 		draw_cursor(cursor_row, cursor_col);
-		show_info(cursor_row, cursor_col, skip);
+		show_info_from_cursor(cursor_row, cursor_col, skip);
 
 		char ch = getch();
 		mvwprintw(debug, 3, 1, "   ");

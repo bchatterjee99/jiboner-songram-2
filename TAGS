@@ -1,0 +1,188 @@
+
+a.out,0
+
+combat.c,318
+double damage_calc(int base_damage, int armor)damage_calc11,125
+void explosion(int row, int col)explosion16,178
+void explosion_test()explosion_test26,310
+int collision_detect(int x, int y, struct entity* e)collision_detect33,446
+void laser_weapon_1()laser_weapon_150,771
+void attack(int type)attack86,1344
+
+combat.h,27
+#define COMBATCOMBAT2,15
+
+controls.png,0
+
+cover.jpg,0
+
+debug.txt,0
+
+draw.c,648
+struct entity on_screen_object[100][100];on_screen_object13,130
+void draw_init()draw_init15,173
+int inside(int row, int col)inside22,298
+void draw_tile(int x, int y, char tile)draw_tile32,494
+void draw_alien_ships()draw_alien_ships42,741
+void draw_player_ship()draw_player_ship63,1495
+void draw_hud()draw_hud74,1904
+void draw()draw89,2304
+void draw_ray(int ray_pos_x, int ray_pos_y, int length)draw_ray130,3224
+void draw_cursor(int cursor_row, int cursor_col)draw_cursor137,3381
+void show_info_from_cursor(int cursor_row, int cursor_col, int skip)show_info_from_cursor158,3879
+void draw_explosion(int row, int col, int stage)draw_explosion316,7615
+
+draw.h,23
+#define DRAWDRAW2,13
+
+err1.txt,0
+
+err.txt,0
+
+faltu.c,21
+int main()main4,41
+
+#faltu.txt#,0
+
+faltu.txt,0
+
+ferr.txt,0
+
+global.c,452
+int num_row;num_row4,22
+int num_col;num_col5,35
+int pnum_row;pnum_row6,48
+int pnum_col;pnum_col7,62
+int inum_row;inum_row8,76
+int inum_col;inum_col9,90
+int hnum_row;hnum_row10,104
+int hnum_col;hnum_col11,118
+unsigned long time_count;time_count12,132
+unsigned long debug_count;debug_count13,158
+WINDOW* playground;playground15,186
+WINDOW* debug;debug16,206
+WINDOW* info;info17,221
+WINDOW* hud;hud18,235
+FILE* err;err20,249
+
+global.h,340
+#define GLOBALGLOBAL2,15
+#define LEFT LEFT6,53
+#define RIGHT RIGHT7,70
+#define UP UP8,88
+#define DOWN DOWN9,103
+#define NORTH_WEST NORTH_WEST11,121
+#define NORTH_EAST NORTH_EAST12,144
+#define SOUTH_WEST SOUTH_WEST13,167
+#define SOUTH_EAST SOUTH_EAST14,190
+#define HP_BAR HP_BAR16,214
+#define POWER_BAR POWER_BAR17,232
+
+inspect.c,22
+void look()look8,85
+
+inspect.h,23
+#define LOOKLOOK2,13
+
+main.c,110
+void init()init18,228
+void reset()reset36,431
+void game_loop()game_loop74,1300
+int main()main160,2547
+
+permutation.c,202
+int perm[8] = {6, 4, 2, 5, 7, 0, 1, 3};perm3,20
+int get_bit(char a, int i)get_bit5,61
+char set_bit(char a, int i, int b)set_bit10,115
+void show(unsigned char a)show17,213
+int main()main27,320
+
+pilot.txt,0
+
+player.c,161
+struct player_struct player;player9,88
+char ship_name[20];ship_name10,117
+void player_init()player_init12,138
+void player_move(int dir)player_move26,385
+
+player.h,27
+#define PLAYERPLAYER2,15
+
+README.md,138
+# Jiboner-Songram-2Jiboner-Songram-23,98
+# BuildBuild22,859
+# Current ControlsCurrent Controls27,882
+# ScreenshotScreenshot31,987
+
+run,0
+
+screenshot-1.png,0
+
+structure.h,1098
+#define STRUCTURESTRUCTURE2,18
+struct player_struct{player_struct4,37
+    int x;x5,59
+    int y;y6,70
+    int height;height7,81
+    int hp;hp8,97
+    int max_hp;max_hp9,109
+    int power;power10,125
+    int max_power;max_power11,140
+    int armor;armor12,159
+    int armor_class;armor_class13,174
+    int primary_weapon;primary_weapon14,195
+    int secondary_weapon;secondary_weapon15,219
+struct alien_ship_struct{alien_ship_struct19,250
+    int type;type20,276
+    int x;x21,290
+    int y;y22,301
+    int hp;hp23,312
+    int max_hp;max_hp24,324
+    int power;power25,340
+    int max_power;max_power26,355
+    int armor;armor27,374
+    int armor_class;armor_class28,389
+    int primary_weapon;primary_weapon29,410
+    int secondary_weapon;secondary_weapon30,434
+struct planet_struct{planet_struct33,464
+    int size;size34,486
+    char name[20];name35,500
+    int type;type36,519
+struct entity{entity39,537
+    int entity_type;entity_type40,552
+    int id;id48,688
+    unsigned long timestamp;timestamp49,700
+    char ch;ch50,729
+
+tags,0
+
+test.c,21
+int main()main4,21
+
+tileset.c,322
+char ALIEN_SHIP_TILE[20];ALIEN_SHIP_TILE3,22
+char BACKGROUND_OBJECT[20];BACKGROUND_OBJECT4,48
+char ALIEN_SHIP_NAME[20][20];ALIEN_SHIP_NAME5,76
+char SHIP_WEAPONS[20][20];SHIP_WEAPONS6,106
+char SHIP_ARMOR[20][20];SHIP_ARMOR7,133
+void put_str(char* a, char* b)put_str9,159
+void tileset_init()tileset_init20,270
+
+tileset.h,77
+#define TILESETTILESET2,16
+#define PLAYER_SHIP_TILE PLAYER_SHIP_TILE4,33
+
+worldgen.c,435
+char background[100][100];background10,109
+struct alien_ship_struct *alien_ships;alien_ships11,136
+struct planet_struct* planets;planets12,175
+int alien_ship_count;alien_ship_count13,206
+int planet_count;planet_count14,228
+void gen_background()gen_background16,247
+void worldgen_init()worldgen_init27,422
+void enemy_gen()enemy_gen36,673
+void worldgen()worldgen86,1891
+void destroy_universe()destroy_universe94,1969
+
+worldgen.h,31
+#define WORLDGENWORLDGEN2,17

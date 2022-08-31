@@ -22,6 +22,10 @@ void draw_ray(int ray_pos_x, int ray_pos_y, int length);
 
 void draw_cursor(int cursor_row, int cursor_col);
 
-void show_info(int cursor_row, int cursor_col, int skip);
+void show_info_from_cursor(int cursor_row, int cursor_col, int skip);
+
+void show_info(struct entity* e);
+
+void draw_explosion(int row, int col, int stage);
 
 #endif

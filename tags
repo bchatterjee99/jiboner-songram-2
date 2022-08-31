@@ -99,7 +99,7 @@ secondary_weapon	./structure.h	/^	int secondary_weapon;$/;"	m	struct:player_stru
 set_bit	./permutation.c	/^char set_bit(char a, int i, int b)$/;"	f
 ship_name	./player.c	/^char ship_name[20];$/;"	v
 show	./permutation.c	/^void show(unsigned char a)$/;"	f
-show_info	./draw.c	/^void show_info(int cursor_row, int cursor_col, int skip)$/;"	f
+show_info_from_cursor	./draw.c	/^void show_info_from_cursor(int cursor_row, int cursor_col, int skip)$/;"	f
 size	./structure.h	/^	int size;$/;"	m	struct:planet_struct
 tileset_init	./tileset.c	/^void tileset_init()$/;"	f
 time_count	./global.c	/^unsigned long time_count;$/;"	v
