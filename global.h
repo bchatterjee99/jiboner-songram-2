@@ -16,6 +16,8 @@
 #define HP_BAR 15
 #define POWER_BAR 12
 
+#define ALIEN_SHIPS_MAX 20
+
 extern int num_row;
 extern int num_col;
 extern int pnum_row;

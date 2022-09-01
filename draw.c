@@ -28,6 +28,15 @@ int inside(int row, int col)
 	return 1;
 }
 
+// convert from global to screen coordinates
+void global_to_screen(int x, int y, int *row, int *col)
+{
+	int centre_row = pnum_row/2;
+	int centre_col = pnum_col/2;
+	*row = centre_row - (y - player.y);
+	*col = centre_col + (x - player.x);
+}
+
 // draw tile with global coordinates
 void draw_tile_global(int x, int y, char tile)
 {
@@ -59,20 +68,21 @@ void draw_alien_ships()
 {
 	int centre_row = pnum_row/2;
 	int centre_col = pnum_col/2;
-	for(int i=0; i<alien_ship_count; i++)
+	for(int i=0; i<ALIEN_SHIPS_MAX; i++)
 	{
-		int x = alien_ships[i].x;
-		int y = alien_ships[i].y;
-		int row = centre_row - (y - player.y);
-		int col = centre_col + (x - player.x);
-		// fprintf(err, "draw_alien_ship(): row: %d, col: %d, type: %d, tile: %c\n", row, col, alien_ships[i].type, ALIEN_SHIP_TILE[alien_ships[i].type]);
-		if(!inside(row, col)) continue;
+	    if(!alien_ships[i].valid) continue;
+	    int x = alien_ships[i].x;
+	    int y = alien_ships[i].y;
+	    int row = centre_row - (y - player.y);
+	    int col = centre_col + (x - player.x);
+	    // fprintf(err, "draw_alien_ship(): row: %d, col: %d, type: %d, tile: %c\n", row, col, alien_ships[i].type, ALIEN_SHIP_TILE[alien_ships[i].type]);
+	    if(!inside(row, col)) continue;
 
-		mvwaddch(playground, row, col, ALIEN_SHIP_TILE[alien_ships[i].type]);
-		on_screen_object[row][col].timestamp = time_count;
-		on_screen_object[row][col].entity_type = 4;
-		on_screen_object[row][col].id = i;
-		on_screen_object[row][col].ch = ALIEN_SHIP_TILE[alien_ships[i].type];
+	    mvwaddch(playground, row, col, ALIEN_SHIP_TILE[alien_ships[i].type]);
+	    on_screen_object[row][col].timestamp = time_count;
+	    on_screen_object[row][col].entity_type = 4;
+	    on_screen_object[row][col].id = i;
+	    on_screen_object[row][col].ch = ALIEN_SHIP_TILE[alien_ships[i].type];
 	}
 }
 
@@ -168,164 +178,6 @@ void draw_cursor(int cursor_row, int cursor_col)
 	for(col = cursor_col - 2; col <= cursor_col + 2; col++)
 		mvwaddch(playground, row, col, '-');
 
-	wrefresh(playground);
-}
-
-void show_info_from_cursor(int cursor_row, int cursor_col, int skip)
-{
-	werase(info);
-	box(info, 0, 0);
-
-	int num_objects = 0;
-	for(int r=cursor_row-1; r<=cursor_row+1; r++)
-		for(int c=cursor_col-2; c<=cursor_col+2; c++)
-			if(on_screen_object[r][c].timestamp == time_count)
-				num_objects++;
-
-	if(num_objects == 0)
-	{
-		wrefresh(info);
-		return;
-	}
-
-	skip = skip % num_objects; skip = (num_objects + skip) % num_objects;
-
-
-	int ok = 0; int i,j;
-	for(i=cursor_row-1; i<=cursor_row+1; i++)
-	{
-		for(j=cursor_col-2; j<=cursor_col+2; j++)
-		{
-			if(on_screen_object[i][j].timestamp == time_count)
-			{
-				if(skip > 0) 
-				{
-					skip--;
-					continue;
-				}
-				ok = 1;
-				break;
-			}
-		}
-		if(ok) break;
-	}
-
-	int entity_type = on_screen_object[i][j].entity_type;
-	int id = on_screen_object[i][j].id;
-	char ch = on_screen_object[i][j].ch;
-	int filled = 0, row, type;
-	switch(entity_type)
-	{
-		case 1: // debris
-			mvwprintw(info, 1, 1, "debris");
-			for(int k=1; k<inum_col-1; k++) mvwaddch(info, 2, k, '-');
-			break;
-		case 2: // star
-			mvwprintw(info, 1, 1, "unknown star");
-			for(int k=1; k<inum_col-1; k++) mvwaddch(info, 2, k, '-');
-			break;
-		case 3: // asteroid
-			mvwprintw(info, 1, 1, "asteroid");
-			for(int k=1; k<inum_col-1; k++) mvwaddch(info, 2, k, '-');
-			break;
-		case 4: // alien ship
-			row = 1;
-			type = alien_ships[id].type;
-
-			// name
-			mvwprintw(info, row, 1, "%s", ALIEN_SHIP_NAME[type]);
-			row+=1;
-			for(int k=1; k<inum_col-1; k++) mvwaddch(info, row, k, '-');
-			row+=1;
-
-			// hp
-			mvwprintw(info, row, 1, "HP: ");
-			filled = (alien_ships[id].hp * HP_BAR)/alien_ships[id].max_hp;
-			for(int k=0; k<HP_BAR; k++)
-				if(k <= filled)
-					mvwaddch(info, row, k + 5, '|');
-				else
-					mvwaddch(info, row, k + 5, '.');
-			row+=1;
-
-			// power
-			mvwprintw(info, row, 1, "Power: ");
-			filled = (alien_ships[id].power * POWER_BAR)/alien_ships[id].max_power;
-			for(int k=0; k<POWER_BAR; k++)
-				if(k <= filled)
-					mvwaddch(info, row, k + 8, '|');
-				else
-					mvwaddch(info, row, k + 8, '.');
-			row+=2;
-
-			// primary weapon
-			mvwprintw(info, row, 1, "Primary Weapon:"); row++;
-			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[alien_ships[id].primary_weapon]);
-			row+=2;
-
-			// scondary weapon
-			mvwprintw(info, row, 1, "Secondary Weapon:"); row++;
-			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[alien_ships[id].secondary_weapon]);
-			row+=2;
-
-			// armor
-			mvwprintw(info, row, 1, "Armor:"); row++;
-			mvwprintw(info, row, 1, "%s", SHIP_ARMOR[alien_ships[id].armor]);
-
-			break;
-
-		case 5: // player ship
-			row = 1;
-
-			// name
-			mvwprintw(info, row, 1, "%s", ship_name);
-			row+=1;
-			for(int k=1; k<inum_col-1; k++) mvwaddch(info, row, k, '-');
-			row+=1;
-
-			// hp
-			mvwprintw(info, row, 1, "HP: ");
-			filled = (player.hp * HP_BAR)/player.max_hp;
-			for(int k=0; k<HP_BAR; k++)
-				if(k <= filled)
-					mvwaddch(info, row, k + 5, '|');
-				else
-					mvwaddch(info, row, k + 5, '.');
-			row+=1;
-
-			// power
-			mvwprintw(info, row, 1, "Power: ");
-			filled = (player.power * POWER_BAR)/player.max_power;
-			for(int k=0; k<POWER_BAR; k++)
-				if(k <= filled)
-					mvwaddch(info, row, k + 8, '|');
-				else
-					mvwaddch(info, row, k + 8, '.');
-			row+=2;
-
-			// primary weapon
-			mvwprintw(info, row, 1, "Primary Weapon:"); row++;
-			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[player.primary_weapon]);
-			row+=2;
-
-			// scondary weapon
-			mvwprintw(info, row, 1, "Secondary Weapon:"); row++;
-			mvwprintw(info, row, 1, "%s", SHIP_WEAPONS[player.secondary_weapon]);
-			row+=2;
-
-
-			// armor
-			mvwprintw(info, row, 1, "Armor:"); row++;
-			mvwprintw(info, row, 1, "%s", SHIP_ARMOR[player.armor]);
-
-			break;
-
-	}
-	wattron(playground, A_REVERSE);
-	mvwaddch(playground, i, j, ch);
-	wattroff(playground, A_REVERSE);
-
-	wrefresh(info);
 	wrefresh(playground);
 }
 
@@ -448,6 +300,58 @@ void show_info(struct entity* e)
 	}
 	wrefresh(info);
 }
+
+
+void show_info_from_cursor(int cursor_row, int cursor_col, int skip)
+{
+	werase(info);
+	box(info, 0, 0);
+
+	int num_objects = 0;
+	for(int r=cursor_row-1; r<=cursor_row+1; r++)
+		for(int c=cursor_col-2; c<=cursor_col+2; c++)
+			if(on_screen_object[r][c].timestamp == time_count)
+				num_objects++;
+
+	if(num_objects == 0)
+	{
+		wrefresh(info);
+		return;
+	}
+
+	skip = skip % num_objects; skip = (num_objects + skip) % num_objects;
+
+
+	int ok = 0; int i,j;
+	for(i=cursor_row-1; i<=cursor_row+1; i++)
+	{
+		for(j=cursor_col-2; j<=cursor_col+2; j++)
+		{
+			if(on_screen_object[i][j].timestamp == time_count)
+			{
+				if(skip > 0) 
+				{
+					skip--;
+					continue;
+				}
+				ok = 1;
+				break;
+			}
+		}
+		if(ok) break;
+	}
+
+	show_info(&on_screen_object[i][j]);
+	char ch = on_screen_object[i][j].ch;
+
+
+	wattron(playground, A_REVERSE);
+	mvwaddch(playground, i, j, ch);
+	wattroff(playground, A_REVERSE);
+	wrefresh(playground);
+}
+
+
 
 
 void draw_explosion(int row, int col, int stage)

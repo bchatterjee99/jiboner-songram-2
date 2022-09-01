@@ -59,3 +59,13 @@ void player_move(int dir)
     }
 }
 
+
+void player_state_update()
+{
+    // temporary
+    // TODO: power generation system 
+    int POWER_REGEN = 1;
+
+    if(player.power < player.max_power)
+	player.power += POWER_REGEN;
+}

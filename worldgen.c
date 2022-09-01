@@ -11,7 +11,6 @@ char background[100][100];
 struct alien_ship_struct *alien_ships;
 struct planet_struct* planets;
 int alien_ship_count;
-int planet_count;
 
 void gen_background()
 {
@@ -28,9 +27,11 @@ void worldgen_init()
 {
 	gen_background();
 	time_count = 0;
-	alien_ships = (struct alien_ship_struct*)malloc(15 * sizeof(struct alien_ship_struct));
+	alien_ships = (struct alien_ship_struct*)malloc(ALIEN_SHIPS_MAX * sizeof(struct alien_ship_struct));
 	planets = (struct planet_struct*)malloc(15 * sizeof(struct planet_struct));
-	alien_ship_count = 0;
+
+
+	for(int i=0; i<ALIEN_SHIPS_MAX; i++) alien_ships[i].valid = 0;
 }
 
 void enemy_gen()
@@ -38,11 +39,20 @@ void enemy_gen()
 	int x = player.x + rand()%20 - 10; 
 	int y = player.y + rand()%15 + 10;
 
-	int idx = alien_ship_count;
+	int idx;
+	for(int i=0; i<ALIEN_SHIPS_MAX; i++)
+	{
+	    if(!alien_ships[i].valid)
+	    {
+		idx = i; break;
+	    }
+	}
 
+	alien_ships[idx].valid = 1;
 	alien_ships[idx].x = x;
 	alien_ships[idx].y = y;
 	alien_ships[idx].type = rand()%3;
+	alien_ships[idx].turn_counter = 0;
 
 	switch(alien_ships[idx].type)
 	{
@@ -78,9 +88,6 @@ void enemy_gen()
 			break;
 	}
 
-
-	alien_ship_count++;
-	alien_ship_count = alien_ship_count % 15;
 }
 
 
@@ -91,6 +98,11 @@ void worldgen()
 		enemy_gen();
 }
 
+
+void destroy_ship(int id)
+{
+    alien_ships[id].valid = 0;
+}
 
 void destroy_universe()
 {

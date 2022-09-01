@@ -11,4 +11,6 @@ void player_move(int dir);
 
 void attack(int type);
 
+void player_state_update();
+
 #endif

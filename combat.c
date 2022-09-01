@@ -12,11 +12,15 @@
 
 double damage_calc(int base_damage, int armor)
 {
-
+    // double ans = base_damage - armor * lvl;
+    int ans = base_damage - armor;
+    return ans;
 }
 
-void explosion(int row, int col)
+void explosion(int x, int y)
 {
+    int row, col;
+    global_to_screen(x, y, &row, &col);
     for(int i=0; i<8; i++)
     {
 	draw();
@@ -27,22 +31,22 @@ void explosion(int row, int col)
 
 void explosion_test()
 {
-    int centre_row = pnum_row/2;
-    int centre_col = pnum_col/2;
-    explosion(centre_row - 5, centre_col);
+    explosion(player.x, player.y + 5);
 }
 
 int collision_detect(int x, int y, struct entity* e)
 {
     // with alien ships
-    for(int i=0; i<alien_ship_count; i++)
+    for(int i=0; i<ALIEN_SHIPS_MAX; i++)
     {
+	if(!alien_ships[i].valid) continue;
+
 	if(alien_ships[i].x == x && alien_ships[i].y == y)
 	{
 	    e->entity_type = 4; // alien ship
 	    e->id = i;
 	    e->ch = ALIEN_SHIP_TILE[alien_ships[i].type];
-	    show_info(e);
+	    // show_info(e);
 	    return 1;
 	}
     }
@@ -53,25 +57,31 @@ int collision_detect(int x, int y, struct entity* e)
 void laser_weapon_1()
 {
     int ray_pos_x = player.x;
-    int ray_pos_y = player.y + 3;
+    int ray_pos_y = player.y + 1;
     int length = 3;
-    int range = 10;
+    int range = 15;
     struct entity e;
+    int collision_x, collision_y;
+
+    if(player.power < 3) return;
+    player.power -= 3;
 
     int hit = 0;
     while(range--)
     {
 	draw();
 	draw_ray(ray_pos_x, ray_pos_y, length);
-	usleep(100000);
+	usleep(50000);
 	for(int i=0; i<3; i++)
 	{
-	    fprintf(err, "ray_pos_y + i: %d\n", ray_pos_y + i); fflush(err);
+	    // fprintf(err, "ray_pos_y + i: %d\n", ray_pos_y + i); fflush(err);
 	    if(collision_detect(ray_pos_x, ray_pos_y + i, &e))
 	    {
 		hit = 1;
-		// break;
-		fprintf(err, "collision\n\n"); fflush(err);
+		collision_x = ray_pos_x;
+		collision_y = ray_pos_y + i;
+		break;
+		// fprintf(err, "collision\n\n"); fflush(err);
 	    }
 				
 	}
@@ -80,7 +90,6 @@ void laser_weapon_1()
     }
     draw();
 
-    return;
     if(!hit) return;
 
     int id;
@@ -89,6 +98,15 @@ void laser_weapon_1()
     case 4: // alien ship    
 	id = e.id;
 	alien_ships[id].hp -= damage_calc(5, alien_ships[id].armor_class);
+	show_info(&e);
+	if(alien_ships[id].hp <= 0)
+	{
+	    destroy_ship(id);   
+	    werase(info);
+	    box(info, 0, 0);
+	    wrefresh(info);
+	    explosion(collision_x, collision_y);
+	}
 	break;
     }
     

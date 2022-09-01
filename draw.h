@@ -7,6 +7,8 @@ int inside(int row, int col);
 
 void draw_init();
 
+void global_to_screen(int x, int y, int* row, int* col);
+
 // draw tile with global coordinates
 void draw_tile(int x, int y, char tile);
 

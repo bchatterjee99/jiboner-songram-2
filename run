@@ -5,6 +5,7 @@ tput reset
 flags="-lncurses"
 
 gcc -c main.c
+gcc -c ai.c
 gcc -c combat.c
 gcc -c inspect.c
 gcc -c draw.c
@@ -13,7 +14,7 @@ gcc -c player.c
 gcc -c tileset.c
 gcc -c global.c
 
-gcc main.o combat.o inspect.o draw.o worldgen.o player.o tileset.o global.o -lncurses
+gcc main.o ai.o combat.o inspect.o draw.o worldgen.o player.o tileset.o global.o -lncurses
 
 # if gcc $files $flags; then
 #     echo -e "\n\n  compile hoe geche\n\n";

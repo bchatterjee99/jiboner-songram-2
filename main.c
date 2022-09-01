@@ -11,8 +11,9 @@
 #include "player.h"
 #include "worldgen.h"
 #include "draw.h"
-#include "combat.h"
 #include "inspect.h"
+#include "combat.h"
+#include "ai.h"
 
 
 void init()
@@ -82,11 +83,16 @@ void game_loop()
 	while(1)
 	{
 		worldgen();
+		player_state_update();
 		draw();
+
 		char ch = getch();
 		mvwprintw(debug, 3, 1, "     ");
 		mvwprintw(debug, 3, 1, "%d", ch);
 		wrefresh(debug);
+
+		ai_pre_turn();
+
 		switch(ch)
 		{
 			case 'h':
@@ -137,6 +143,9 @@ void game_loop()
 				break;
 		}
 		if(quit) break;
+
+		ai_post_turn();
+
 	}
 	destroy_universe();
 }

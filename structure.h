@@ -17,6 +17,7 @@ struct player_struct{
 
 
 struct alien_ship_struct{
+    char valid;
     int type;
     int x;
     int y;
@@ -28,6 +29,7 @@ struct alien_ship_struct{
     int armor_class;
     int primary_weapon;
     int secondary_weapon;
+    int turn_counter;
 };
 
 struct planet_struct{
